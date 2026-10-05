@@ -25,17 +25,17 @@ Decide from the user's words, the aspect ratio and any reference video, and stat
 
 | Mode | Use when | Signature |
 |---|---|---|
-| **A. Tutorial cinematic** | 16:9 YouTube tutorials, intros, process explainers over a talking head or AI clips | dark grid, green accent, Poppins, glass AR UI, step lists |
-| **B. Vertical documentary explainer** | 9:16 shorts/reels about news, money, history; reference looks like Vox / Johnny Harris / Economist shorts | charcoal + paper textures, B&W assets, ONE red accent, serif numbers, split screens, varied reveals, tactile foley |
-| **C. AI-film overlays** | graphics living inside AI-generated scenes (Seedance, Artlist...) | tracked billboards, chalk illustrations, particle reveals, before/after |
-| **D. Pure code animation** | animate an illustration or build a scene with no footage and no AI video tool | procedural painted layers + cut-out character with breathing, blinks, hair sway |
-| **F. Flat 2.5D animated explainer** | a fully animated science/idea explainer with no footage (40-90 s, VO-driven), bright flat-vector look with characters, isometric worlds, holograms | rich saturated palettes that change per scene, cel-shaded 2D shapes with banded (segmented) gradients, rounded isometric blocks, mature characters, story-driven match-cut transitions; toolkit `scripts/flat25d_kit.py` |
-| **G. 3D voxel scale-zoom** | a fully 3D stylised journey through scales or worlds with no footage ("Powers of Ten", galaxy -> atom, any continuous zoom story), 20-40 s | every level built from matte, vivid clay-like cubes (Genshin-bright, not neon), blocks scatter/assemble at transitions, continuous log zoom with smooth acceleration, scale counter + ruler, 8-bit + ambient SFX; Three.js rendered headless frame by frame |
+| **A. Tutorial UI animations** | 16:9 YouTube tutorials, intros, process explainers over a talking head or AI clips | dark grid, green accent, Poppins, glass AR UI, step lists |
+| **B. Vertical editorial style** | 9:16 shorts/reels about news, money, history; reference looks like Vox / Johnny Harris / Economist shorts | charcoal + paper textures, B&W assets, ONE red accent, serif numbers, split screens, varied reveals, tactile foley |
+| **C. AI-video overlays** | graphics living inside AI-generated scenes (Seedance, Artlist...) | tracked billboards, chalk illustrations, particle reveals, before/after |
+| **D. 2D illustration animation** | animate an illustration or build a scene with no footage and no AI video tool | procedural painted layers + cut-out character with breathing, blinks, hair sway |
+| **F. 2D animated explainer** | a fully animated science/idea explainer with no footage (40-90 s, VO-driven), bright flat-vector look with characters, isometric worlds, holograms | rich saturated palettes that change per scene, cel-shaded 2D shapes with banded (segmented) gradients, rounded isometric blocks, mature characters, story-driven match-cut transitions; toolkit `scripts/flat25d_kit.py` |
+| **G. 3D voxel animation** | a fully 3D stylised journey through scales or worlds with no footage ("Powers of Ten", galaxy -> atom, any continuous zoom story), 20-40 s | every level built from matte, vivid clay-like cubes (Genshin-bright, not neon), blocks scatter/assemble at transitions, continuous log zoom with smooth acceleration, scale counter + ruler, 8-bit + ambient SFX; Three.js rendered headless frame by frame |
 | **E. Character music video** | an animated cartoon music video or lyric video with characters, synced to a song, no footage | use the **`ai-music-video-animation`** skill: parametric painted characters, environment/prop sheets repainted in code, glowing code-style lyrics |
 
 If a reference video is given, its style beats the mode defaults - analyse it (workflow step 2) and note the differences.
 
-**Switching modes (for anyone using this skill):** say "use Mode B", "switch to the documentary style", "make it a flat 2.5D explainer" etc. Claude then swaps palette, type, layouts, transitions and sound together and keeps the shared workflow. Modes can also be mixed on purpose (e.g. Mode F scenes cut into a Mode A talking-head intro) - state which mode each section uses in the beat table. Personal house rules (colours, fonts, banned effects) can be added by the user in their own copy under the relevant mode.
+**Switching modes (for anyone using this skill):** say "use Mode B", "switch to the vertical editorial style", "make it a 2D animated explainer" etc. (older names - tutorial cinematic, vertical documentary, AI-film overlays, pure code animation, flat 2.5D explainer, 3D voxel scale-zoom - mean the same modes). Claude then swaps palette, type, layouts, transitions and sound together and keeps the shared workflow. Modes can also be mixed on purpose (e.g. Mode F scenes cut into a Mode A talking-head intro) - state which mode each section uses in the beat table. Personal house rules (colours, fonts, banned effects) can be added by the user in their own copy under the relevant mode.
 
 ## 2. Shared workflow (all modes)
 
@@ -69,7 +69,7 @@ When iterating on feedback: change only what was asked; keep previously-approved
 
 ## 3. Modes in detail
 
-### Mode A - Tutorial cinematic (16:9)
+### Mode A - Tutorial UI animations (16:9)
 
 House style (details in `references/style-rules.md`):
 - Clean, contemporary, "YouTuber cinematic". No neon/purple tech glow, no clip-art.
@@ -92,7 +92,7 @@ Section patterns:
 - **Process explainer**: left step list with sliding highlight; right stage per step (idea card typing -> assets generating -> assets merge into loading video -> video shrinks into a preview above an editing timeline of real clips + audio).
 - **Process explainer with a single video**: rounded video card + PiP; big step pipeline under the card; analysis phase on a held sharp frame; 3D exploded layer stack that collapses into the finished render.
 
-### Mode B - Vertical documentary explainer (9:16, 1080x1920)
+### Mode B - Vertical editorial style (9:16, 1080x1920)
 
 **Script (if asked to write one):** analyse the reference transcript (typically ~135 wpm; ~75-80 words = 30 s). Structure: concrete hook (date + jaw-dropping number) -> tangible comparison ("twice the entire economy of Russia") -> specific cause chain (what actually happened) -> the parallel today with a named company and numbers -> short ironic close. Research and verify every figure with web search, cite sources, and flag numbers that mislead (e.g. a headline net loss that is mostly a non-cash accounting charge vs the operating loss; people's current titles). When the user wants text for ElevenLabs, give only the paste-ready VO.
 
@@ -135,14 +135,14 @@ Section patterns:
 
 **Pitfalls**: pad an RGBA layer before blurring its alpha for a drop shadow (otherwise the shadow gets hard square edges that look like a dirty crop); compositing helpers must clip to the destination canvas size (split panels are 1080x960, not full frame).
 
-### Mode C - AI-film overlays
+### Mode C - AI-video overlays
 - **World-anchored graphics**: track camera (ground homography chain) and objects (LK with forward-backward check); billboard text/illustrations anchored in 3D; hide tethers/labels when tracking is invalid; prefer screen-space text if tracking makes it hard to read.
 - Chalk illustrations from a generated sprite sheet (alpha from luminance), noise/edge draw-on reveals, particle materialise/dissolve, curved screen walls, 3D layer stacks.
 - **Before/after**: slider over original vs graphics versions; glide in, crawl slowly through the middle, accelerate out.
 - Keep shots real-time and sharp; hold a frozen sharp frame for analysis moments; 2-3 callouts max. Palette/type follow Mode A unless the user says otherwise.
 - Details: `references/techniques.md`, `scripts/mg_kit.py`.
 
-### Mode D - Pure code animation (no footage, no AI video tool)
+### Mode D - 2D illustration animation (no footage, no AI video tool)
 - Character from a flat illustration: cut out with a border flood-fill on near-white; keep its contact shadow as a multiply layer.
 - Painted environment in the illustration's palette: sky gradient + paper noise; cumulus clouds shaded by "mass above" (blurred mask shifted down) rather than a hard horizontal line; noise-curve hill layers with slope shading; meadow with flowers; swaying grass blades drawn at 2x and downsampled; simple line-art props (e.g. windmills with rotating lattice sails); drifting petals. Keep the palette muted to match the character.
 - Life without redrawing: breathing (small vertical remap anchored at the base), hair sway (horizontal displacement fading out below the hairline), blinks (paint the lid with skin colour from the rows just below each eye + a dark lid line; 4 frames half/closed/closed/half), parallax camera pan + slow push, light grain and vignette.
@@ -151,7 +151,7 @@ Section patterns:
 ### Mode E - Character music video
 Hand off to the **`ai-music-video-animation`** skill. It covers the whole pipeline: Suno lyrics/style prompt -> character, environment and props sheet prompts -> repainting the sheets in code (skia: boiling ink + watercolour + paper grain) -> beat/word analysis -> storyboard -> render with transitions, digital particle FX, glowing code-style lyric text and orbit camera -> lip-sync plate stills for an AI video model. Its glowing code text (`fxtext.code_text`) and digital FX (`envs2.gline`/`gbox`/`particles`) can also be borrowed for Mode C/D jobs.
 
-### Mode F - Flat 2.5D animated explainer (no footage)
+### Mode F - 2D animated explainer (no footage)
 Full notes, rejected looks and the review history: `references/flat-explainer.md`. Toolkit: `scripts/flat25d_kit.py` (one file, skia-python); worked example: `scripts/examples/flat25d_example.py`.
 
 **Script first.** ~105-115 words for 40-45 s; one concrete visual idea per sentence, 3-5 s each; explain like it is for a smart 10-year-old. Abstract logic (timelines, paradoxes, odds) needs one persistent visual that builds step by step - too many cut-aways made an earlier explainer impossible to follow. Hand the user paste-ready code blocks (VO script, shot plan). Insert requested "beats" as real silence in the VO at a measured gap and shift later cues.
@@ -171,7 +171,7 @@ Full notes, rejected looks and the review history: `references/flat-explainer.md
 **Workflow:** asset test sheet -> 12-18-frame contact sheet with zoomed character crops -> full render (2 workers, ~0.5-0.8 s/frame) -> re-render only changed ranges -> encode with a bitrate cap (`-b:v 4.5M -maxrate 6.5M`, ~23 MB per 40 s). Sound: soft pad bed, pops/chimes on reveals, glitch bursts, sub booms, typing ticks, shutter clicks, rising chirps on dives; always ship an SFX stem.
 
 
-### Mode G - 3D voxel scale-zoom (Three.js, no footage)
+### Mode G - 3D voxel animation (Three.js, no footage)
 A camera dives continuously through nested worlds (galaxy -> solar system -> Earth -> tree -> grasshopper -> cells -> DNA -> atom -> nucleus/quarks -> strings -> quantum foam), each world built from cubes. Approved result: 35 s, 11 levels. The engine core is in the appendix at the end of this file; the full project (11 level builders, timeline page, renderer, synth SFX) was shipped to the user as `Voxel_PowersOfTen_project.zip` - ask for it if you need to copy a level.
 
 **Pipeline:** Three.js page (`index.html` + level modules) served on localhost -> Playwright + headless Chromium (`--use-angle=swiftshader --enable-unsafe-swiftshader`), `window.renderAt(t)` then `page.screenshot` per frame (1920x1080, 30 fps, ~2 s/frame on CPU) -> ffmpeg with the synth SFX. Each level builder returns `{sc, cam, update(t), bloom:[strength,radius,threshold], exp}`; the timeline table `LV = [name, start, lead, exponent, label, sublabel]` drives everything, and each builder receives `(env, lead, D)` where `D` is its local time at the outgoing boundary. Post: EffectComposer with a two-render-target mix pass (crossfade + light zoom blur, assign `tA/tB` AFTER constructing the ShaderPass - uniform cloning nulls textures), UnrealBloom, OutputPass, then CA/vignette/grain; per-level exposure via `renderer.toneMappingExposure` (OutputPass applies it).
